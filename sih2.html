@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TempleFlow - Smart Crowd Management</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* Base Styles */
+      :root {
+        --primary: #8b4513;
+        --secondary: #d2691e;
+        --accent: #ffd700;
+        --light: #f5f5dc;
+        --dark: #4b3621;
+        --success: #28a745;
+        --warning: #ffc107;
+        --danger: #dc3545;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: var(--light);
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+
+      section {
+        padding: 80px 0;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        margin-bottom: 20px;
+        color: var(--primary);
+      }
+
+      h1 {
+        font-size: 2.8rem;
+      }
+
+      h2 {
+        font-size: 2.2rem;
+        text-align: center;
+        margin-bottom: 50px;
+        position: relative;
+      }
+
+      h2:after {
+        content: "";
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: var(--accent);
+        border-radius: 2px;
+      }
+
+      p {
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: var(--transition);
+        box-shadow: var(--shadow);
+      }
+
+      .btn:hover {
+        background-color: var(--secondary);
+        transform: translateY(-3px);
+      }
+
+      .btn-accent {
+        background-color: var(--accent);
+        color: var(--dark);
+      }
+
+      .btn-accent:hover {
+        background-color: #e6c200;
+      }
+
+      /* Header Styles */
+      header {
+        background-color: white;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary);
+        text-decoration: none;
+      }
+
+      .logo i {
+        margin-right: 10px;
+        font-size: 2rem;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+      }
+
+      .nav-links li {
+        margin-left: 30px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 600;
+        transition: var(--transition);
+        position: relative;
+      }
+
+      .nav-links a:hover {
+        color: var(--primary);
+      }
+
+      .nav-links a:after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--primary);
+        transition: var(--transition);
+      }
+
+      .nav-links a:hover:after {
+        width: 100%;
+      }
+
+      .mobile-menu {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(
+            rgba(139, 69, 19, 0.8),
+            rgba(210, 105, 30, 0.8)
+          ),
+          url("https://images.unsplash.com/photo-1547996160-81dfd58739ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80");
+        background-size: cover;
+        background-position: center;
+        color: white;
+        text-align: center;
+        padding: 150px 0;
+      }
+
+      .hero h1 {
+        color: white;
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+      }
+
+      .hero p {
+        font-size: 1.3rem;
+        max-width: 700px;
+        margin: 0 auto 30px;
+      }
+
+      /* Features Section */
+      .features {
+        background-color: white;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .feature-card {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .feature-card i {
+        font-size: 3rem;
+        color: var(--primary);
+        margin-bottom: 20px;
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+      }
+
+      /* Crowd Status Section */
+      .crowd-status {
+        background-color: #f9f9f9;
+      }
+
+      .status-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .status-indicator {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 30px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+        box-shadow: var(--shadow);
+        transition: all 0.5s ease;
+      }
+
+      .status-low {
+        background-color: var(--success);
+      }
+
+      .status-medium {
+        background-color: var(--warning);
+      }
+
+      .status-high {
+        background-color: var(--danger);
+      }
+
+      .status-info {
+        text-align: center;
+        max-width: 600px;
+        margin-bottom: 30px;
+      }
+
+      .wait-time {
+        font-size: 1.2rem;
+        margin-top: 20px;
+        font-weight: 600;
+      }
+
+      /* Booking Section */
+      .booking {
+        background-color: white;
+      }
+
+      .booking-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+        align-items: center;
+      }
+
+      .booking-info {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .booking-form {
+        flex: 1;
+        min-width: 300px;
+        background-color: #f9f9f9;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+
+      /* Guidelines Section */
+      .guidelines {
+        background-color: #f9f9f9;
+      }
+
+      .guidelines-list {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .guideline-item {
+        background-color: white;
+        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .guideline-icon {
+        background-color: var(--accent);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        flex-shrink: 0;
+      }
+
+      .guideline-icon i {
+        color: var(--dark);
+      }
+
+      /* About Section */
+      .about {
+        background-color: white;
+      }
+
+      .about-content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+        align-items: center;
+      }
+
+      .about-text {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .about-image {
+        flex: 1;
+        min-width: 300px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      .about-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* Statistics Section */
+      .statistics {
+        background-color: var(--primary);
+        color: white;
+        text-align: center;
+      }
+
+      .statistics h2 {
+        color: white;
+      }
+
+      .statistics h2:after {
+        background-color: var(--accent);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+      }
+
+      .stat-item {
+        padding: 30px;
+      }
+
+      .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: var(--accent);
+      }
+
+      .stat-text {
+        font-size: 1.2rem;
+      }
+
+      /* Contact Section */
+      .contact {
+        background-color: white;
+      }
+
+      .contact-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+      }
+
+      .contact-info {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .contact-details {
+        margin-top: 30px;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 20px;
+      }
+
+      .contact-icon {
+        background-color: var(--accent);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        flex-shrink: 0;
+      }
+
+      .contact-icon i {
+        color: var(--dark);
+      }
+
+      .contact-form {
+        flex: 1;
+        min-width: 300px;
+        background-color: #f9f9f9;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+      }
+
+      /* FAQ Section */
+      .faq {
+        background-color: #f9f9f9;
+      }
+
+      .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .faq-item {
+        background-color: white;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .faq-question {
+        padding: 20px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        transition: var(--transition);
+      }
+
+      .faq-question:hover {
+        background-color: #f5f5f5;
+      }
+
+      .faq-question i {
+        transition: var(--transition);
+      }
+
+      .faq-answer {
+        padding: 0 20px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      .faq-item.active .faq-answer {
+        padding: 0 20px 20px;
+        max-height: 500px;
+      }
+
+      .faq-item.active .faq-question i {
+        transform: rotate(180deg);
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--dark);
+        color: white;
+        padding: 60px 0 30px;
+      }
+
+      .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 40px;
+      }
+
+      .footer-column {
+        flex: 1;
+        min-width: 250px;
+        margin-bottom: 30px;
+      }
+
+      .footer-column h3 {
+        color: var(--accent);
+        margin-bottom: 20px;
+        font-size: 1.3rem;
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 10px;
+      }
+
+      .footer-links a {
+        color: #ddd;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+        padding-left: 5px;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .social-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        color: white;
+        transition: var(--transition);
+      }
+
+      .social-links a:hover {
+        background-color: var(--accent);
+        color: var(--dark);
+        transform: translateY(-3px);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.9rem;
+        color: #aaa;
+      }
+
+      /* Page Navigation */
+      .page {
+        display: none;
+      }
+
+      .page.active {
+        display: block;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background-color: white;
+          flex-direction: column;
+          padding: 20px;
+          box-shadow: var(--shadow);
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .nav-links li {
+          margin: 10px 0;
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+
+        h1 {
+          font-size: 2.2rem;
+        }
+
+        h2 {
+          font-size: 1.8rem;
+        }
+
+        .hero {
+          padding: 100px 0;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        section {
+          padding: 60px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="container">
+        <nav class="navbar">
+          <a href="#" class="logo" data-page="home">
+            <i class="fas fa-place-of-worship"></i>
+            TempleFlow
+          </a>
+          <ul class="nav-links">
+            <li><a href="#" data-page="home">Home</a></li>
+            <li><a href="#" data-page="about">About</a></li>
+            <li><a href="#" data-page="crowd-status">Crowd Status</a></li>
+            <li><a href="#" data-page="booking">Booking</a></li>
+            <li><a href="#" data-page="guidelines">Guidelines</a></li>
+            <li><a href="#" data-page="faq">FAQ</a></li>
+            <li><a href="#" data-page="contact">Contact</a></li>
+          </ul>
+          <div class="mobile-menu">
+            <i class="fas fa-bars"></i>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Home Page -->
+    <section class="page active" id="home-page">
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="container">
+          <h1>Smart Temple & Pilgrim Crowd Management</h1>
+          <p>
+            Ensuring a peaceful and safe spiritual experience through
+            technology-driven crowd management solutions.
+          </p>
+          <a href="#" class="btn btn-accent" data-page="booking"
+            >Book Your Visit</a
+          >
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="features">
+        <div class="container">
+          <h2>Our Solutions</h2>
+          <div class="features-grid">
+            <div class="feature-card">
+              <i class="fas fa-users"></i>
+              <h3>Real-time Crowd Monitoring</h3>
+              <p>
+                Advanced sensors and AI algorithms to track visitor density and
+                flow in real-time.
+              </p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-calendar-check"></i>
+              <h3>Online Booking System</h3>
+              <p>
+                Reserve your visit in advance to avoid long queues and ensure a
+                smooth experience.
+              </p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-map-marked-alt"></i>
+              <h3>Smart Navigation</h3>
+              <p>
+                Indoor navigation and optimized routing to minimize congestion
+                at key areas.
+              </p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-bell"></i>
+              <h3>Alert System</h3>
+              <p>
+                Instant notifications about crowd levels, waiting times, and
+                special announcements.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Statistics Section -->
+      <section class="statistics">
+        <div class="container">
+          <h2>Our Impact</h2>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-number">50+</div>
+              <div class="stat-text">Temples Managed</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">2M+</div>
+              <div class="stat-text">Pilgrims Served</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">75%</div>
+              <div class="stat-text">Reduced Wait Times</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">98%</div>
+              <div class="stat-text">Visitor Satisfaction</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- About Page -->
+    <section class="page" id="about-page">
+      <section class="about">
+        <div class="container">
+          <h2>About TempleFlow</h2>
+          <div class="about-content">
+            <div class="about-text">
+              <h3>Our Mission</h3>
+              <p>
+                TempleFlow was founded with a simple yet powerful mission: to
+                transform the spiritual experience for pilgrims by leveraging
+                technology to manage crowd flow and reduce wait times.
+              </p>
+              <p>
+                We understand that visiting temples and holy sites should be a
+                peaceful, contemplative experience, not a stressful one spent in
+                long queues.
+              </p>
+              <p>
+                Our team of engineers, data scientists, and cultural heritage
+                experts work together to create solutions that respect tradition
+                while embracing innovation.
+              </p>
+              <h3>Our Approach</h3>
+              <p>
+                We use a combination of IoT sensors, computer vision, and
+                predictive analytics to monitor crowd density in real-time and
+                provide actionable insights to temple administrators.
+              </p>
+              <p>
+                Our booking system helps distribute visitors throughout the day,
+                preventing overcrowding and ensuring everyone has a meaningful
+                experience.
+              </p>
+            </div>
+            <div class="about-image">
+              <img
+                src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80"
+                alt="Temple interior"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features">
+        <div class="container">
+          <h2>Our Values</h2>
+          <div class="features-grid">
+            <div class="feature-card">
+              <i class="fas fa-hands-helping"></i>
+              <h3>Respect for Tradition</h3>
+              <p>
+                We work closely with religious authorities to ensure our
+                solutions enhance rather than disrupt sacred practices.
+              </p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-user-shield"></i>
+              <h3>Privacy & Security</h3>
+              <p>
+                We prioritize the privacy of pilgrims and ensure all data is
+                handled with the utmost care and security.
+              </p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-leaf"></i>
+              <h3>Sustainability</h3>
+              <p>
+                Our solutions help reduce the environmental impact of
+                overcrowding at heritage sites.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Crowd Status Page -->
+    <section class="page" id="crowd-status-page">
+      <section class="crowd-status">
+        <div class="container">
+          <h2>Current Crowd Status</h2>
+          <div class="status-container">
+            <div class="status-indicator status-medium" id="crowdIndicator">
+              <div class="status-content">
+                <span id="crowdLevel">Medium</span>
+                <div id="crowdPercentage">65%</div>
+              </div>
+            </div>
+            <div class="status-info">
+              <p>
+                The temple currently has a
+                <strong id="crowdText">moderate</strong> crowd. Wait times are
+                approximately <strong id="waitTime">20-30 minutes</strong>.
+              </p>
+              <p>Last updated: <span id="lastUpdated">Just now</span></p>
+            </div>
+            <button class="btn" id="refreshStatus">Refresh Status</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="features">
+        <div class="container">
+          <h2>Live Temple Status</h2>
+          <div class="features-grid">
+            <div class="feature-card">
+              <i class="fas fa-temperature-high"></i>
+              <h3>Main Sanctum</h3>
+              <p class="wait-time">Wait: 25 minutes</p>
+              <p>Capacity: 68%</p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-water"></i>
+              <h3>Holy Water Area</h3>
+              <p class="wait-time">Wait: 15 minutes</p>
+              <p>Capacity: 45%</p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-utensils"></i>
+              <h3>Prasad Counter</h3>
+              <p class="wait-time">Wait: 10 minutes</p>
+              <p>Capacity: 55%</p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-parking"></i>
+              <h3>Parking Area</h3>
+              <p class="wait-time">Available: 40%</p>
+              <p>Status: Moderate</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Booking Page -->
+    <section class="page" id="booking-page">
+      <section class="booking">
+        <div class="container">
+          <h2>Book Your Visit</h2>
+          <div class="booking-container">
+            <div class="booking-info">
+              <h3>Plan Your Spiritual Journey</h3>
+              <p>
+                Booking your visit in advance helps us manage crowd flow and
+                ensures you have a peaceful experience at the temple.
+              </p>
+              <p>
+                Select your preferred date and time slot based on availability.
+                You'll receive a confirmation with a QR code for entry.
+              </p>
+              <p>
+                Same-day bookings are available but subject to current crowd
+                conditions.
+              </p>
+              <div class="feature-card" style="margin-top: 30px">
+                <i class="fas fa-qrcode"></i>
+                <h3>Digital Pass</h3>
+                <p>
+                  Your booking confirmation includes a QR code that serves as
+                  your entry pass. Show it at the gate for quick entry.
+                </p>
+              </div>
+            </div>
+            <div class="booking-form">
+              <form id="visitBookingForm">
+                <div class="form-group">
+                  <label for="name">Full Name</label>
+                  <input type="text" id="name" class="form-control" required />
+                </div>
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input
+                    type="email"
+                    id="email"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input type="tel" id="phone" class="form-control" required />
+                </div>
+                <div class="form-group">
+                  <label for="date">Visit Date</label>
+                  <input type="date" id="date" class="form-control" required />
+                </div>
+                <div class="form-group">
+                  <label for="time">Time Slot</label>
+                  <select id="time" class="form-control" required>
+                    <option value="">Select a time</option>
+                    <option value="morning">Morning (6:00 AM - 9:00 AM)</option>
+                    <option value="late-morning">
+                      Late Morning (9:00 AM - 12:00 PM)
+                    </option>
+                    <option value="afternoon">
+                      Afternoon (12:00 PM - 3:00 PM)
+                    </option>
+                    <option value="evening">Evening (3:00 PM - 6:00 PM)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="visitors">Number of Visitors</label>
+                  <input
+                    type="number"
+                    id="visitors"
+                    class="form-control"
+                    min="1"
+                    max="10"
+                    value="1"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  class="btn btn-accent"
+                  style="width: 100%"
+                >
+                  Book Now
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Guidelines Page -->
+    <section class="page" id="guidelines-page">
+      <section class="guidelines">
+        <div class="container">
+          <h2>Visitor Guidelines</h2>
+          <div class="guidelines-list">
+            <div class="guideline-item">
+              <div class="guideline-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div>
+                <h3>Arrive on Time</h3>
+                <p>
+                  Please arrive within your selected time slot to help maintain
+                  crowd flow and avoid congestion.
+                </p>
+              </div>
+            </div>
+            <div class="guideline-item">
+              <div class="guideline-icon">
+                <i class="fas fa-mask"></i>
+              </div>
+              <div>
+                <h3>Follow Safety Protocols</h3>
+                <p>
+                  Wear masks in crowded areas and maintain appropriate physical
+                  distance where possible.
+                </p>
+              </div>
+            </div>
+            <div class="guideline-item">
+              <div class="guideline-icon">
+                <i class="fas fa-shoe-prints"></i>
+              </div>
+              <div>
+                <h3>Respect Sacred Spaces</h3>
+                <p>
+                  Remove footwear where required and maintain silence in
+                  meditation and prayer areas.
+                </p>
+              </div>
+            </div>
+            <div class="guideline-item">
+              <div class="guideline-icon">
+                <i class="fas fa-qrcode"></i>
+              </div>
+              <div>
+                <h3>Digital Tickets</h3>
+                <p>
+                  Keep your booking confirmation QR code ready for scanning at
+                  the entrance.
+                </p>
+              </div>
+            </div>
+            <div class="guideline-item">
+              <div class="guideline-icon">
+                <i class="fas fa-restroom"></i>
+              </div>
+              <div>
+                <h3>Facility Usage</h3>
+                <p>
+                  Use restrooms and other facilities during non-peak hours to
+                  avoid crowding.
+                </p>
+              </div>
+            </div>
+            <div class="guideline-item">
+              <div class="guideline-icon">
+                <i class="fas fa-camera"></i>
+              </div>
+              <div>
+                <h3>Photography</h3>
+                <p>
+                  Respect signage regarding photography restrictions. Avoid
+                  blocking pathways while taking photos.
+                </p>
+              </div>
+            </div>
+            <div class="guideline-item">
+              <div class="guideline-icon">
+                <i class="fas fa-tshirt"></i>
+              </div>
+              <div>
+                <h3>Appropriate Attire</h3>
+                <p>
+                  Dress modestly as per temple traditions. Some temples may
+                  provide coverings if needed.
+                </p>
+              </div>
+            </div>
+            <div class="guideline-item">
+              <div class="guideline-icon">
+                <i class="fas fa-hand-holding-heart"></i>
+              </div>
+              <div>
+                <h3>Donations</h3>
+                <p>
+                  Use designated donation boxes. Avoid handing money directly to
+                  priests or staff.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- FAQ Page -->
+    <section class="page" id="faq-page">
+      <section class="faq">
+        <div class="container">
+          <h2>Frequently Asked Questions</h2>
+          <div class="faq-container">
+            <div class="faq-item">
+              <div class="faq-question">
+                How far in advance can I book my temple visit?
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>
+                  You can book your temple visit up to 30 days in advance.
+                  Same-day bookings are also available depending on current
+                  crowd conditions.
+                </p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question">
+                What if I'm running late for my time slot?
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>
+                  We understand that delays can happen. If you're running late,
+                  you'll still be allowed entry, but you may experience longer
+                  wait times depending on the current crowd situation.
+                </p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question">
+                Is the booking fee refundable?
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>
+                  Booking fees are generally non-refundable. However, in
+                  exceptional circumstances such as temple closures or
+                  emergencies, refunds will be processed automatically.
+                </p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question">
+                Can I modify my booking after confirmation?
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>
+                  Yes, you can modify your booking up to 24 hours before your
+                  scheduled visit through the "Manage Booking" section on our
+                  website.
+                </p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question">
+                Are there any discounts for senior citizens or children?
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>
+                  Yes, senior citizens (above 65 years) and children below 5
+                  years enjoy free entry. Children between 5-12 years receive a
+                  50% discount on the booking fee.
+                </p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question">
+                What measures are in place for visitors with disabilities?
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>
+                  We provide wheelchair accessibility, priority entry, and
+                  dedicated assistance for visitors with disabilities. Please
+                  mention your requirements during booking.
+                </p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question">
+                How accurate is the crowd status information?
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>
+                  Our crowd status is updated in real-time using advanced
+                  sensors and AI algorithms. The information is typically 95%
+                  accurate, but sudden changes in visitor flow can occur.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Contact Page -->
+    <section class="page" id="contact-page">
+      <section class="contact">
+        <div class="container">
+          <h2>Contact Us</h2>
+          <div class="contact-container">
+            <div class="contact-info">
+              <h3>Get In Touch</h3>
+              <p>
+                Have questions about our crowd management system or need
+                assistance with your booking? We're here to help.
+              </p>
+              <div class="contact-details">
+                <div class="contact-item">
+                  <div class="contact-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                  </div>
+                  <div>
+                    <h4>Address</h4>
+                    <p>123 Temple Road, Spiritual City, SC 12345</p>
+                  </div>
+                </div>
+                <div class="contact-item">
+                  <div class="contact-icon">
+                    <i class="fas fa-phone"></i>
+                  </div>
+                  <div>
+                    <h4>Phone</h4>
+                    <p>+1 (555) 123-4567</p>
+                  </div>
+                </div>
+                <div class="contact-item">
+                  <div class="contact-icon">
+                    <i class="fas fa-envelope"></i>
+                  </div>
+                  <div>
+                    <h4>Email</h4>
+                    <p>info@templeflow.com</p>
+                  </div>
+                </div>
+                <div class="contact-item">
+                  <div class="contact-icon">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                  <div>
+                    <h4>Office Hours</h4>
+                    <p>Monday - Sunday: 6:00 AM - 8:00 PM</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="contact-form">
+              <form id="contactForm">
+                <div class="form-group">
+                  <label for="contact-name">Full Name</label>
+                  <input
+                    type="text"
+                    id="contact-name"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="contact-email">Email Address</label>
+                  <input
+                    type="email"
+                    id="contact-email"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="contact-subject">Subject</label>
+                  <input
+                    type="text"
+                    id="contact-subject"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="contact-message">Message</label>
+                  <textarea
+                    id="contact-message"
+                    class="form-control"
+                    rows="5"
+                    required
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  class="btn btn-accent"
+                  style="width: 100%"
+                >
+                  Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h3>TempleFlow</h3>
+            <p>
+              Providing technology solutions for peaceful and organized temple
+              visits through smart crowd management.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+          <div class="footer-column">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+              <li><a href="#" data-page="home">Home</a></li>
+              <li><a href="#" data-page="about">About</a></li>
+              <li><a href="#" data-page="crowd-status">Crowd Status</a></li>
+              <li><a href="#" data-page="booking">Booking</a></li>
+              <li><a href="#" data-page="guidelines">Guidelines</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Support</h3>
+            <ul class="footer-links">
+              <li><a href="#" data-page="faq">FAQ</a></li>
+              <li><a href="#" data-page="contact">Contact Us</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2023 TempleFlow. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Page Navigation
+      document.querySelectorAll("[data-page]").forEach((link) => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          const pageId = this.getAttribute("data-page") + "-page";
+
+          // Hide all pages
+          document.querySelectorAll(".page").forEach((page) => {
+            page.classList.remove("active");
+          });
+
+          // Show selected page
+          document.getElementById(pageId).classList.add("active");
+
+          // Close mobile menu if open
+          document.querySelector(".nav-links").classList.remove("active");
+
+          // Scroll to top
+          window.scrollTo(0, 0);
+        });
+      });
+
+      // Mobile Menu Toggle
+      document
+        .querySelector(".mobile-menu")
+        .addEventListener("click", function () {
+          document.querySelector(".nav-links").classList.toggle("active");
+        });
+
+      // Close mobile menu when clicking on a link
+      document.querySelectorAll(".nav-links a").forEach((link) => {
+        link.addEventListener("click", () => {
+          document.querySelector(".nav-links").classList.remove("active");
+        });
+      });
+
+      // Crowd Status Simulation
+      const crowdIndicator = document.getElementById("crowdIndicator");
+      const crowdLevel = document.getElementById("crowdLevel");
+      const crowdPercentage = document.getElementById("crowdPercentage");
+      const crowdText = document.getElementById("crowdText");
+      const waitTime = document.getElementById("waitTime");
+      const lastUpdated = document.getElementById("lastUpdated");
+      const refreshBtn = document.getElementById("refreshStatus");
+
+      function updateCrowdStatus() {
+        // Simulate different crowd levels
+        const levels = [
+          {
+            level: "Low",
+            percentage: "25%",
+            text: "light",
+            wait: "5-10 minutes",
+            class: "status-low",
+          },
+          {
+            level: "Medium",
+            percentage: "65%",
+            text: "moderate",
+            wait: "20-30 minutes",
+            class: "status-medium",
+          },
+          {
+            level: "High",
+            percentage: "85%",
+            text: "heavy",
+            wait: "45-60 minutes",
+            class: "status-high",
+          },
+        ];
+
+        // Randomly select a status (in real app, this would come from an API)
+        const randomIndex = Math.floor(Math.random() * 3);
+        const status = levels[randomIndex];
+
+        // Update the UI
+        crowdLevel.textContent = status.level;
+        crowdPercentage.textContent = status.percentage;
+        crowdText.textContent = status.text;
+        waitTime.textContent = status.wait;
+
+        // Update the indicator class
+        crowdIndicator.className = "status-indicator " + status.class;
+
+        // Update timestamp
+        const now = new Date();
+        lastUpdated.textContent = now.toLocaleTimeString();
+      }
+
+      // Initial status update
+      updateCrowdStatus();
+
+      // Refresh status on button click
+      refreshBtn.addEventListener("click", updateCrowdStatus);
+
+      // Auto-refresh every 2 minutes
+      setInterval(updateCrowdStatus, 120000);
+
+      // Booking Form Handling
+      document
+        .getElementById("visitBookingForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Get form values
+          const name = document.getElementById("name").value;
+          const date = document.getElementById("date").value;
+          const time = document.getElementById("time").value;
+
+          // Simple validation
+          if (!name || !date || !time) {
+            alert("Please fill in all required fields.");
+            return;
+          }
+
+          // In a real application, you would send this data to a server
+          // For this demo, we'll just show a confirmation message
+          alert(
+            `Thank you, ${name}! Your visit on ${date} during the ${time} slot has been booked. You will receive a confirmation email shortly.`
+          );
+
+          // Reset the form
+          this.reset();
+        });
+
+      // Contact Form Handling
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Get form values
+          const name = document.getElementById("contact-name").value;
+
+          // Simple validation
+          if (!name) {
+            alert("Please fill in all required fields.");
+            return;
+          }
+
+          // In a real application, you would send this data to a server
+          // For this demo, we'll just show a confirmation message
+          alert(
+            `Thank you, ${name}! Your message has been sent. We'll get back to you within 24 hours.`
+          );
+
+          // Reset the form
+          this.reset();
+        });
+
+      // Set minimum date to today for the date picker
+      const dateInput = document.getElementById("date");
+      const today = new Date().toISOString().split("T")[0];
+      dateInput.min = today;
+
+      // FAQ Accordion
+      document.querySelectorAll(".faq-question").forEach((question) => {
+        question.addEventListener("click", () => {
+          const item = question.parentNode;
+          item.classList.toggle("active");
+        });
+      });
+    </script>
+  </body>
+</html>
